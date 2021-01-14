@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Cantora+One&display=swap" rel="stylesheet">  
+	<script src="https://use.fontawesome.com/bf0a9868e6.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+<style>
+*{
+
+	padding: 0px;
+	margin:0px;
+	font-family: 'Krona One', sans-serif;
+
+}
+
+.main_header{
+
+	display: block;
+	padding: 20px;
+
+}
+
+.secound_menu{
+
+	display: none;
+
+}
+
+h1{
+
+	font-family: 'Cantora One', sans-serif;
+	font-size: 40px;
+
+}
+
+body,html{
+
+	background: #f7f5f5;
+	color: #111;
+
+}
+
+.main_header span{
+
+	padding: 30px;
+	display: inline-block;
+	cursor: pointer;
+
+}
+
+.main_header span:hover{
+
+	transform: scale(1.5);
+	
+}
+
+#Home{
+	width: 100%;
+	overflow-x: hidden;
+	position: fixed;
+	transition: 0.5s;
+}
+
+#about{
+	left:0;
+	scroll-behavior: smooth;
+	overflow-x: hidden;
+	width:0;
+	background: #f7f5f5;
+	height: 100%;
+	position: fixed;
+}
+
+#whoami{
+	cursor: pointer;
+}
+
+#photo{
+	margin-top: 50px;
+	width: 250px;
+	align-items: center;
+	border-radius: 50%;
+	transition: transform 1s;
+}
+
+#photo:hover{
+	-ms-transform: scale(1.2); 
+ 	-webkit-transform: scale(1.2);
+	transform: scale(1.2);
+}
+
+a{
+	text-decoration: none;
+	color: #111;
+}
+
+hr{
+	width: 100px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+#menu{
+	display: none;
+
+}
+
+#social-media{
+	font-size: 30px;
+	padding: 25px;
+}
+
+#social-media i{
+	color: #777777;
+	margin: 3px;
+}
+
+#social-media i:hover{
+	color: #111;
+}
+
+#shortintro{
+	padding: 10px;
+	line-height: 35px;
+	width: 500px;
+	margin:auto;
+}
+
+#center{
+	display: inline-block;
+	text-align: left;
+}
+
+#center span{
+	color: #1d87ad;
+}
+
+@media only screen and (max-width: 600px) {
+
+
+.main_header{
+	display: none;
+}
+
+.secound_menu{
+	display: block;
+}
+
+.secound_menu i{
+
+	font-size: 35px;
+	margin: 20px;
+}
+
+.secound_menu i:hover{
+	color: #777777;
+}
+
+#photo{
+	width: 150px;
+}
+
+#menu i{
+	float: right;
+	padding: 20px;
+	color: #fff;
+	font-size: 40px;
+}
+
+
+#whoami{
+	font-size: 35px;
+}
+
+p{
+	font-size: 12px;
+}
+
+#menu{
+	display: block;
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #111;
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 10px;
+}
+
+#menu ul{
+	margin-top: 80px;
+
+}
+
+#menu ul li{
+	padding: 8px 8px 8px 20px;
+	text-decoration: none;
+	font-size: 20px;
+	color: #fff;
+	display: block;
+	transition: 0.3s;
+}
+
+#menu ul li:hover{
+	background: #fff;
+	color: #333;
+	cursor:pointer;
+}
+
+#social-media{
+	font-size: 20px;
+	padding: 15px;
+}
+
+#shortintro{
+	width: 80%;
+	margin:auto;
+	line-height: 25px;
+	text-align: left;
+}
+
+}
+
+
+
+</style>
+</head>
+<body>
+
+	<div class="main_header">
+		<span class="active" onclick="about()">about</span>>
+		<span class="active" onclick="home()">Home</span>>
+		<span class="active"><a href="https://gyanihackers.com/blog">Blog</a></span>>
+		<span class="active"><a href="mailto:theamanrawat@protonmail.com">Contact</a></span>
+	</div>
+
+
+	<div class="secound_menu" id="icon">
+		<i class="fas fa-bars" onclick="open_menu()"></i>
+	</div>
+
+	<div id="menu">
+
+		<i class="fas fa-times"  onclick="close_menu()"></i>
+		<ul>
+			<li onclick="home()"><span class="active">Home</span></li>
+			<li onclick="about()"><span class="active">About</span></li>
+			<a href="blog"><li><span class="active">Blog</span></li></a>
+			<a href="mailto:theamanrawat@protonmail.com"><li><span class="active">Contact</span></li></a>
+
+		</ul>
+	</div>
+
+
+
+	<div id="main_content">
+
+
+			<div id="Home">
+				<center>
+					<img src="photo.jpg" id="photo"><br><br><br>
+					<h1 id="whoami">Aman Rawat</h1>
+					<hr>
+					<p>Student > Programmer > Hacker</p>
+
+					<div id="social-media">
+						<a href="https://facebook.com/theamanrawat" target="_blank"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+						<a href="https://instagram.com/theamanrawat" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+						<a href="https://twitter.com/theamanrawat" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+						<a href="https://github.com/theamanrawat" target="_blank"><i class="fab fa-github" aria-hidden="true"></i></a>
+						<a href="https://linkedin.com/in/theamanrawat/" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+					</div>
+				</center>
+
+			</div>
+
+			<div id="about">
+					<center>
+					<h1>whoami?</h1>
+					<hr>
+					</center>
+					<div id="shortintro">
+						<div id="center">
+							<p>
+								My name is Aman Rawat and I live in New Delhi, India. I've experienced in penetration testing and programming and I've reported vulnerability to many companies and got acknowledgement such as Facebook, Google, Twitter, CISCO, Airtel, Paytm and many more.
+								<br>
+								Apart from this my hobbies are Singing, painting and travelling.
+								<br>
+
+								<hr>
+
+								If You want to learn more about my work and experience then <a href="resume.pdf"><span><b>Download</b></span></a> my resume.
+							</p>
+						</div>
+					</div>
+
+
+	
+			</div>
+
+</body>
+
+<script type="text/javascript">
+function open_menu(){
+	document.getElementById("menu").style.width = "300px";
+
+}
+
+function close_menu(){
+	document.getElementById("menu").style.width = "0";
+
+}
+
+function about(){
+	document.getElementById("menu").style.width = "0";
+	document.getElementById("about").style.width = "100%";
+}
+
+function home(){
+	document.getElementById("menu").style.width = "0";
+	document.getElementById("about").style.width = "0";
+}
+</script>
+</html>
