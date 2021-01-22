@@ -1,3 +1,0 @@
-# theamanrawat.github.io
-
-Website 
