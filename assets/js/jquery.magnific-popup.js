@@ -928,6 +928,7 @@ $.fn.magnificPopup = function(options) {
 				}
 				items = items.eq( index );
 			}
+			itemOpts.index = index;
 			mfp._openClick({mfpEl:items}, jqEl, itemOpts);
 		} else {
 			if(mfp.isOpen)
