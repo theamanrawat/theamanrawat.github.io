@@ -203,3 +203,10 @@ pre {
   display: table;
   clear: both;
 }
+
+
+table,td,th{
+  border-collapse: collapse;
+  border: 1px solid white; 
+  padding: 5px;
+}
